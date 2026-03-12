@@ -1,4 +1,4 @@
-# Discord.js v14 Bot Boilerplate
+# Discord.js v14 Bot
 
 A modern, clean, and dynamic command handler setup for a Discord bot using Discord.js v14.
 
