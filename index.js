@@ -1,3 +1,8 @@
+const crypto = require('node:crypto');
+if (typeof globalThis !== 'undefined' && !globalThis.crypto) {
+    globalThis.crypto = crypto.webcrypto;
+}
+
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
@@ -14,11 +19,11 @@ try {
 
 const token = process.env.TOKEN || config.token;
 
-const client = new Client({ 
+const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildVoiceStates
-    ] 
+    ]
 });
 
 const player = new Player(client, {
