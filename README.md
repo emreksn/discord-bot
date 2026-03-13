@@ -4,23 +4,23 @@ A feature-rich Discord music bot built with **Discord.js v14** and **discord-pla
 
 ## ✨ Features
 
-- **YouTube Playback** — Play music from YouTube via `yt-dlp` with automatic best-quality audio extraction.
-- **DAVE Protocol Ready** — Fully supports Discord's End-to-End Encrypted voice channels.
-- **Slash Commands** — Modern `/play`, `/skip`, and `/stop` interaction commands.
-- **Dynamic Handlers** — Auto-loading command and event handlers; just drop new `.js` files into `commands/` or `events/`.
-- **Queue System** — Built-in track queue with skip and stop controls via `discord-player`.
-- **Hot Reload** — Development mode with `nodemon` for instant restarts on code changes.
+- **YouTube Playback** — YouTube linkleri üzerinden yüksek kaliteli ses çalma.
+- **DAVE Protocol Ready** — Discord'un yeni Uçtan Uca Şifreleme (E2EE) ses kanallarını tam destekler.
+- **Slash Commands** — Modern `/play`, `/skip`, `/queue` ve `/stop` komutları.
+- **Idle Timeout** — Şarkı bittiğinde veya kanal boşaldığında 3 dakika boyunca odada bekler.
+- **Dynamic Handlers** — Otomatik yüklenen komut ve olay işleyicileri.
+- **Hot Reload** — Geliştirme modunda `nodemon` ile otomatik yeniden başlatma.
 
-## 🚀 Getting Started
+## 🚀 Başlangıç
 
-### Prerequisites
+### Gereksinimler
 
-- **Node.js** v16.9+ (LTS recommended)
-- **FFmpeg** installed and available in PATH
-- A [Discord Developer Application](https://discord.com/developers/applications) with a Bot Token
-- Your **Application ID** (Client ID) and **Server ID** (Guild ID)
+- **Node.js** v16.9+ (LTS önerilir)
+- **FFmpeg** yüklü ve PATH'e eklenmiş olmalı
+- [Discord Developer Portal](https://discord.com/developers/applications) üzerinden alınmış bir Bot Token
+- **Application ID** (Client ID) ve **Server ID** (Guild ID)
 
-### Installation
+### Kurulum
 
 ```bash
 git clone <your-repo-url>
@@ -28,11 +28,11 @@ cd discord-bot
 npm install
 ```
 
-### Configuration
+### Yapılandırma
 
-The bot supports two configuration methods:
+Bot iki farklı yöntemi destekler:
 
-**Option A — Local `config.json` (for development):**
+**Seçenek A — Yerel `config.json` (Geliştirme için):**
 ```json
 {
     "token": "YOUR_BOT_TOKEN",
@@ -41,80 +41,66 @@ The bot supports two configuration methods:
 }
 ```
 
-**Option B — Environment variables (for production/Dokploy):**
-Create a `.env` file or set these variables in your hosting platform:
+**Seçenek B — Ortam Değişkenleri (Prodüksiyon/Dokploy için):**
 ```
 TOKEN=your_bot_token
 CLIENT_ID=your_application_id
 GUILD_ID=your_server_id
 ```
 
-> Environment variables take priority over `config.json`.
-
-### Running Locally
+### Çalıştırma
 
 ```bash
 npm run dev
 ```
 
-This command will:
-1. Register slash commands to your guild (`deploy-commands.js`).
-2. Start the bot with `nodemon` for auto-restart on file changes.
+Bu komut:
+1. Slash komutlarını sunucunuza kaydeder (`deploy-commands.js`).
+2. Botu `nodemon` ile başlatır.
 
-For production (no hot reload):
-```bash
-npm start
-```
+## 🤖 Komutlar
 
-## 🤖 Commands
-
-| Command | Description |
+| Komut | Açıklama |
 |---------|-------------|
-| `/play <song>` | YouTube'dan şarkı adı veya URL ile çal |
-| `/skip` | Şu anda çalan şarkıyı atla |
-| `/queue` | Müzik kuyruğunu göster |
-| `/stop` | Müziği durdur, kuyruğu temizle ve kanaldan ayrıl |
+| `/play <link>` | Sadece YouTube linki ile şarkı çal |
+| `/skip` | Çalınan şarkıyı atla |
+| `/queue` | Sıradaki şarkıları gör |
+| `/stop` | Müziği durdur ve kanaldan ayrıl |
 
 ## ☁️ Deployment (Dokploy)
 
-This bot is pre-configured for deployment via **Dokploy** with a multi-stage Dockerfile.
+Bu bot **Dokploy** üzerinde Dockerfile ile dağıtılmak üzere yapılandırılmıştır.
 
-1. Create a new Application in Dokploy linked to your GitHub repository.
-2. Set **Build Type** to **Dockerfile** — it will auto-detect the `Dockerfile` in your repo root.
-3. Go to the **Environment** tab and add:
-   - `TOKEN` — Your Discord bot token
-   - `CLIENT_ID` — Your application ID
-   - `GUILD_ID` — Your test server ID
-4. Click **Deploy**.
+1. Dokploy'da GitHub deponuza bağlı yeni bir uygulama oluşturun.
+2. **Build Type** kısmını **Dockerfile** olarak seçin.
+3. **Environment** sekmesine `TOKEN`, `CLIENT_ID` ve `GUILD_ID` değişkenlerini ekleyin.
+4. **Deploy** butonuna tıklayın.
 
-## 📁 Project Structure
+## 📁 Proje Yapısı
 
 ```
 discord-bot/
-├── commands/           # Slash command files
-│   ├── play.js         # /play — YouTube playback
+├── commands/           # Slash komut dosyaları
+│   ├── play.js         # /play — YouTube link oynatma
 │   ├── skip.js         # /skip — Şarkı atla
 │   ├── queue.js        # /queue — Kuyruğu göster
-│   └── stop.js         # /stop — Durdur ve kanaldan ayrıl
-├── events/             # Discord event listeners
-│   ├── ready.js        # Bot ready event
-│   └── interactionCreate.js  # Slash command router
-├── index.js            # Main entry point — boots the bot & player
-├── deploy-commands.js  # Registers slash commands with Discord API
-├── config.json         # Local credentials (gitignored)
-├── Dockerfile          # Multi-stage Docker build
-├── .dockerignore       # Files excluded from Docker build
-├── package.json        # Dependencies & scripts
+│   └── stop.js         # /stop — Durdur ve ayrıl
+├── events/             # Olay dinleyicileri
+├── index.js            # Ana giriş dosyası
+├── deploy-commands.js  # Komut kayıt aracı
+├── Dockerfile          # Multi-stage Docker yapılandırması
+├── .dockerignore       # Docker dışı dosyalar
+├── package.json        # Bağımlılıklar
 └── .gitignore
 ```
 
-## 🛠️ Tech Stack
+## 🛠️ Teknolojiler
 
-- [Discord.js](https://discord.js.org/) v14 — Discord API wrapper
-- [discord-player](https://discord-player.js.org/) v7 — Audio player framework
-- [youtube-dl-exec](https://github.com/microlinkhq/youtube-dl-exec) — YouTube audio extraction via yt-dlp
-- [dotenv](https://github.com/motdotla/dotenv) — Environment variable management
-- [FFmpeg](https://ffmpeg.org/) — Audio transcoding
+- [Discord.js](https://discord.js.org/) v14
+- [discord-player](https://discord-player.js.org/) v7
+- [youtube-dl-exec](https://github.com/microlinkhq/youtube-dl-exec) (yt-dlp)
+- [FFmpeg](https://ffmpeg.org/)
+
 
 ## 📝 License
 
