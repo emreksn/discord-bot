@@ -77,10 +77,10 @@ npm start
 
 ## ☁️ Deployment (Dokploy)
 
-This bot is pre-configured for deployment via **Dokploy** with Nixpacks.
+This bot is pre-configured for deployment via **Dokploy** with a multi-stage Dockerfile.
 
 1. Create a new Application in Dokploy linked to your GitHub repository.
-2. Keep the default **Nixpacks** build type — it will auto-install FFmpeg and run `npm start`.
+2. Set **Build Type** to **Dockerfile** — it will auto-detect the `Dockerfile` in your repo root.
 3. Go to the **Environment** tab and add:
    - `TOKEN` — Your Discord bot token
    - `CLIENT_ID` — Your application ID
@@ -102,7 +102,8 @@ discord-bot/
 ├── index.js            # Main entry point — boots the bot & player
 ├── deploy-commands.js  # Registers slash commands with Discord API
 ├── config.json         # Local credentials (gitignored)
-├── nixpacks.toml       # Nixpacks config (adds FFmpeg)
+├── Dockerfile          # Multi-stage Docker build
+├── .dockerignore       # Files excluded from Docker build
 ├── package.json        # Dependencies & scripts
 └── .gitignore
 ```
