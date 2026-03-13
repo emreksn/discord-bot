@@ -23,7 +23,7 @@ COPY --from=builder /app/node_modules ./node_modules
 
 # Copy application source
 COPY package*.json ./
-COPY index.js deploy-commands.js ./
+COPY index.js deploy-commands.js db.js ./
 COPY commands/ ./commands/
 COPY events/ ./events/
 
