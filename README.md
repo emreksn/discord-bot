@@ -1,57 +1,119 @@
-# Discord.js v14 Music Bot
+# 🎵 Discord Music Bot
 
-A modern, clean, and dynamic command handler setup for a Discord bot using Discord.js v14, featuring a high-quality music player.
+A feature-rich Discord music bot built with **Discord.js v14** and **discord-player**, capable of playing audio from **YouTube** and **SoundCloud** with full support for Discord's DAVE (E2EE) voice protocol.
 
-## Features
-- **Advanced Music Player:** Play high-quality audio from YouTube and Spotify via a custom SoundCloud DRM-bypass bridge.
-- **Discord DAVE Protocol Ready:** Fully supports Discord's new End-to-End Encryption (E2EE) voice channels.
-- **Dynamic Command Handling:** Drop new command files into the `commands/` folder and they are automatically loaded.
-- **Dynamic Event Handling:** Drop new event listener files into the `events/` folder to keep your main file clean.
-- **Slash Command Registration:** Easily register and update application (`/`) commands (`/play`, `/stop`, `/skip`).
-- **Auto-restarting Dev Environment:** Uses `nodemon` to automatically refresh the bot when you save changes to your code.
+## ✨ Features
 
-## Getting Started
+- **Multi-Source Playback** — Play music from YouTube (via `yt-dlp`) and SoundCloud (via `play-dl` with automatic DRM bypass).
+- **DAVE Protocol Ready** — Fully supports Discord's End-to-End Encrypted voice channels.
+- **Slash Commands** — Modern `/play`, `/skip`, and `/stop` interaction commands.
+- **Dynamic Handlers** — Auto-loading command and event handlers; just drop new `.js` files into `commands/` or `events/`.
+- **Queue System** — Built-in track queue with skip and stop controls via `discord-player`.
+- **Hot Reload** — Development mode with `nodemon` for instant restarts on code changes.
 
-### 1. Prerequisites
-- Node.js installed (LTS version recommended)
-- A Discord Developer Application and Bot Token
-- Your Application ID (Client ID)
-- Your Discord Server ID (Guild ID)
+## 🚀 Getting Started
 
-### 2. Configuration
-1. Open `config.json`.
-2. Replace the placeholder values with your actual bot credentials from the [Discord Developer Portal](https://discord.com/developers/applications):
+### Prerequisites
+
+- **Node.js** v16.9+ (LTS recommended)
+- **FFmpeg** installed and available in PATH
+- A [Discord Developer Application](https://discord.com/developers/applications) with a Bot Token
+- Your **Application ID** (Client ID) and **Server ID** (Guild ID)
+
+### Installation
+
+```bash
+git clone <your-repo-url>
+cd discord-bot
+npm install
+```
+
+### Configuration
+
+The bot supports two configuration methods:
+
+**Option A — Local `config.json` (for development):**
 ```json
 {
-	"token": "YOUR_BOT_TOKEN_HERE",
-	"clientId": "YOUR_CLIENT_ID_HERE",
-	"guildId": "YOUR_GUILD_ID_HERE"
+    "token": "YOUR_BOT_TOKEN",
+    "clientId": "YOUR_CLIENT_ID",
+    "guildId": "YOUR_GUILD_ID"
 }
 ```
 
-### 3. Running the Bot Locally
-To start the bot in development mode, simply run:
+**Option B — Environment variables (for production/Dokploy):**
+Create a `.env` file or set these variables in your hosting platform:
+```
+TOKEN=your_bot_token
+CLIENT_ID=your_application_id
+GUILD_ID=your_server_id
+```
+
+> Environment variables take priority over `config.json`.
+
+### Running Locally
+
 ```bash
 npm run dev
 ```
-This command automatically:
-1. Registers your current slash commands to your test server (`deploy-commands.js`).
-2. Starts the bot using `nodemon` so it auto-restarts on code changes (`index.js`).
 
-## Deployment (Dokploy)
-This bot is pre-configured to be deployed securely via Dokploy using environment variables.
+This command will:
+1. Register slash commands to your guild (`deploy-commands.js`).
+2. Start the bot with `nodemon` for auto-restart on file changes.
+
+For production (no hot reload):
+```bash
+npm start
+```
+
+## 🤖 Commands
+
+| Command | Description |
+|---------|-------------|
+| `/play <song>` | Play a song by name or URL (YouTube / SoundCloud) |
+| `/skip` | Skip the currently playing track |
+| `/stop` | Stop playback, clear the queue, and leave the voice channel |
+
+## ☁️ Deployment (Dokploy)
+
+This bot is pre-configured for deployment via **Dokploy** with Nixpacks.
 
 1. Create a new Application in Dokploy linked to your GitHub repository.
-2. Under **Build Type**, keep the default **Nixpacks** (it will automatically build and run the `npm run start` script).
-3. Go to the **Environment** tab in your Dokploy application and add the following variables:
-   - `TOKEN` (Your Discord bot token)
-   - `CLIENT_ID` (Your application ID)
-   - `GUILD_ID` (Your test server ID)
+2. Keep the default **Nixpacks** build type — it will auto-install FFmpeg and run `npm start`.
+3. Go to the **Environment** tab and add:
+   - `TOKEN` — Your Discord bot token
+   - `CLIENT_ID` — Your application ID
+   - `GUILD_ID` — Your test server ID
 4. Click **Deploy**.
 
-## Folder Structure
-- `commands/` - Place your slash command `.js` files here. They must export a `data` (SlashCommandBuilder) and an `execute` function.
-- `events/` - Place your event `.js` files here (e.g., `ready.js`, `interactionCreate.js`).
-- `deploy-commands.js` - Utility script to send command data to the Discord API.
-- `config.json` - Your local bot credentials (do not share or commit this file!).
-- `index.js` - The main entry point that boots up the bot and loads the handler.
+## 📁 Project Structure
+
+```
+discord-bot/
+├── commands/           # Slash command files
+│   ├── play.js         # /play — YouTube & SoundCloud playback
+│   ├── skip.js         # /skip — Skip current track
+│   └── stop.js         # /stop — Stop playback & leave channel
+├── events/             # Discord event listeners
+│   ├── ready.js        # Bot ready event
+│   └── interactionCreate.js  # Slash command router
+├── index.js            # Main entry point — boots the bot & player
+├── deploy-commands.js  # Registers slash commands with Discord API
+├── config.json         # Local credentials (gitignored)
+├── nixpacks.toml       # Nixpacks config (adds FFmpeg)
+├── package.json        # Dependencies & scripts
+└── .gitignore
+```
+
+## 🛠️ Tech Stack
+
+- [Discord.js](https://discord.js.org/) v14 — Discord API wrapper
+- [discord-player](https://discord-player.js.org/) v7 — Audio player framework
+- [play-dl](https://github.com/play-dl/play-dl) — SoundCloud streaming & search
+- [youtube-dl-exec](https://github.com/microlinkhq/youtube-dl-exec) — YouTube audio extraction via yt-dlp
+- [dotenv](https://github.com/motdotla/dotenv) — Environment variable management
+- [FFmpeg](https://ffmpeg.org/) — Audio transcoding
+
+## 📝 License
+
+ISC
