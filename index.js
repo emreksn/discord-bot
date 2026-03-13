@@ -1,8 +1,13 @@
+const crypto = require('node:crypto');
+if (typeof globalThis !== 'undefined' && !globalThis.crypto) {
+    globalThis.crypto = crypto.webcrypto;
+}
+
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { Player } = require('discord-player');
-const { DefaultExtractors, SoundCloudExtractor } = require('@discord-player/extractor');
+const { DefaultExtractors } = require('@discord-player/extractor');
 require('dotenv').config();
 
 let config = {};
@@ -14,11 +19,11 @@ try {
 
 const token = process.env.TOKEN || config.token;
 
-const client = new Client({ 
+const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildVoiceStates
-    ] 
+    ]
 });
 
 const player = new Player(client, {
@@ -28,12 +33,32 @@ const player = new Player(client, {
     }
 });
 
+// Leave voice channel after 3 minutes of idle (no songs in queue)
+player.events.on('emptyQueue', (queue) => {
+    setTimeout(() => {
+        if (!queue.isPlaying()) {
+            queue.delete();
+        }
+    }, 3 * 60 * 1000); // 3 minutes
+});
+
+// Leave voice channel after 3 minutes if current channel is empty
+player.events.on('emptyChannel', (queue) => {
+    setTimeout(() => {
+        if (queue.channel.members.size <= 1) { // Only bot left
+            queue.delete();
+        }
+    }, 3 * 60 * 1000); // 3 minutes
+});
+
 // loadMulti is an async function in Discord-Player v6+.
 player.extractors.loadMulti(DefaultExtractors).then(() => {
     console.log('Default Extractors loaded successfully.');
 }).catch(console.error);
 
 player.events.on('playerStart', (queue, track) => {
+    // Skip generic titles from raw stream URLs (e.g. YouTube CDN "videoplayback")
+    if (!track.title || track.title === 'videoplayback' || track.title.startsWith('http')) return;
     queue.metadata.followUp(`🎶 **${track.title}** çalmaya başladı!`);
 });
 

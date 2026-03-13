@@ -1,57 +1,107 @@
-# Discord.js v14 Music Bot
+# 🎵 Discord Music Bot
 
-A modern, clean, and dynamic command handler setup for a Discord bot using Discord.js v14, featuring a high-quality music player.
+A feature-rich Discord music bot built with **Discord.js v14** and **discord-player**, capable of playing audio from **YouTube** with full support for Discord's DAVE (E2EE) voice protocol.
 
-## Features
-- **Advanced Music Player:** Play high-quality audio from YouTube and Spotify via a custom SoundCloud DRM-bypass bridge.
-- **Discord DAVE Protocol Ready:** Fully supports Discord's new End-to-End Encryption (E2EE) voice channels.
-- **Dynamic Command Handling:** Drop new command files into the `commands/` folder and they are automatically loaded.
-- **Dynamic Event Handling:** Drop new event listener files into the `events/` folder to keep your main file clean.
-- **Slash Command Registration:** Easily register and update application (`/`) commands (`/play`, `/stop`, `/skip`).
-- **Auto-restarting Dev Environment:** Uses `nodemon` to automatically refresh the bot when you save changes to your code.
+## ✨ Features
 
-## Getting Started
+- **YouTube Playback** — YouTube linkleri üzerinden yüksek kaliteli ses çalma.
+- **DAVE Protocol Ready** — Discord'un yeni Uçtan Uca Şifreleme (E2EE) ses kanallarını tam destekler.
+- **Slash Commands** — Modern `/play`, `/skip`, `/queue` ve `/stop` komutları.
+- **Idle Timeout** — Şarkı bittiğinde veya kanal boşaldığında 3 dakika boyunca odada bekler.
+- **Dynamic Handlers** — Otomatik yüklenen komut ve olay işleyicileri.
+- **Hot Reload** — Geliştirme modunda `nodemon` ile otomatik yeniden başlatma.
 
-### 1. Prerequisites
-- Node.js installed (LTS version recommended)
-- A Discord Developer Application and Bot Token
-- Your Application ID (Client ID)
-- Your Discord Server ID (Guild ID)
+## 🚀 Başlangıç
 
-### 2. Configuration
-1. Open `config.json`.
-2. Replace the placeholder values with your actual bot credentials from the [Discord Developer Portal](https://discord.com/developers/applications):
+### Gereksinimler
+
+- **Node.js** v16.9+ (LTS önerilir)
+- **FFmpeg** yüklü ve PATH'e eklenmiş olmalı
+- [Discord Developer Portal](https://discord.com/developers/applications) üzerinden alınmış bir Bot Token
+- **Application ID** (Client ID) ve **Server ID** (Guild ID)
+
+### Kurulum
+
+```bash
+git clone <your-repo-url>
+cd discord-bot
+npm install
+```
+
+### Yapılandırma
+
+Bot iki farklı yöntemi destekler:
+
+**Seçenek A — Yerel `config.json` (Geliştirme için):**
 ```json
 {
-	"token": "YOUR_BOT_TOKEN_HERE",
-	"clientId": "YOUR_CLIENT_ID_HERE",
-	"guildId": "YOUR_GUILD_ID_HERE"
+    "token": "YOUR_BOT_TOKEN",
+    "clientId": "YOUR_CLIENT_ID",
+    "guildId": "YOUR_GUILD_ID"
 }
 ```
 
-### 3. Running the Bot Locally
-To start the bot in development mode, simply run:
+**Seçenek B — Ortam Değişkenleri (Prodüksiyon/Dokploy için):**
+```
+TOKEN=your_bot_token
+CLIENT_ID=your_application_id
+GUILD_ID=your_server_id
+```
+
+### Çalıştırma
+
 ```bash
 npm run dev
 ```
-This command automatically:
-1. Registers your current slash commands to your test server (`deploy-commands.js`).
-2. Starts the bot using `nodemon` so it auto-restarts on code changes (`index.js`).
 
-## Deployment (Dokploy)
-This bot is pre-configured to be deployed securely via Dokploy using environment variables.
+Bu komut:
+1. Slash komutlarını sunucunuza kaydeder (`deploy-commands.js`).
+2. Botu `nodemon` ile başlatır.
 
-1. Create a new Application in Dokploy linked to your GitHub repository.
-2. Under **Build Type**, keep the default **Nixpacks** (it will automatically build and run the `npm run start` script).
-3. Go to the **Environment** tab in your Dokploy application and add the following variables:
-   - `TOKEN` (Your Discord bot token)
-   - `CLIENT_ID` (Your application ID)
-   - `GUILD_ID` (Your test server ID)
-4. Click **Deploy**.
+## 🤖 Komutlar
 
-## Folder Structure
-- `commands/` - Place your slash command `.js` files here. They must export a `data` (SlashCommandBuilder) and an `execute` function.
-- `events/` - Place your event `.js` files here (e.g., `ready.js`, `interactionCreate.js`).
-- `deploy-commands.js` - Utility script to send command data to the Discord API.
-- `config.json` - Your local bot credentials (do not share or commit this file!).
-- `index.js` - The main entry point that boots up the bot and loads the handler.
+| Komut | Açıklama |
+|---------|-------------|
+| `/play <link>` | Sadece YouTube linki ile şarkı çal |
+| `/skip` | Çalınan şarkıyı atla |
+| `/queue` | Sıradaki şarkıları gör |
+| `/stop` | Müziği durdur ve kanaldan ayrıl |
+
+## ☁️ Deployment (Dokploy)
+
+Bu bot **Dokploy** üzerinde Dockerfile ile dağıtılmak üzere yapılandırılmıştır.
+
+1. Dokploy'da GitHub deponuza bağlı yeni bir uygulama oluşturun.
+2. **Build Type** kısmını **Dockerfile** olarak seçin.
+3. **Environment** sekmesine `TOKEN`, `CLIENT_ID` ve `GUILD_ID` değişkenlerini ekleyin.
+4. **Deploy** butonuna tıklayın.
+
+## 📁 Proje Yapısı
+
+```
+discord-bot/
+├── commands/           # Slash komut dosyaları
+│   ├── play.js         # /play — YouTube link oynatma
+│   ├── skip.js         # /skip — Şarkı atla
+│   ├── queue.js        # /queue — Kuyruğu göster
+│   └── stop.js         # /stop — Durdur ve ayrıl
+├── events/             # Olay dinleyicileri
+├── index.js            # Ana giriş dosyası
+├── deploy-commands.js  # Komut kayıt aracı
+├── Dockerfile          # Multi-stage Docker yapılandırması
+├── .dockerignore       # Docker dışı dosyalar
+├── package.json        # Bağımlılıklar
+└── .gitignore
+```
+
+## 🛠️ Teknolojiler
+
+- [Discord.js](https://discord.js.org/) v14
+- [discord-player](https://discord-player.js.org/) v7
+- [youtube-dl-exec](https://github.com/microlinkhq/youtube-dl-exec) (yt-dlp)
+- [FFmpeg](https://ffmpeg.org/)
+
+
+## 📝 License
+
+ISC
