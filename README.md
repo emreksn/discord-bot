@@ -1,15 +1,15 @@
-# 🎵 Discord Music Bot
+# 🎵🎮 Discord Müzik ve Ekonomi Botu
 
-A feature-rich Discord music bot built with **Discord.js v14** and **discord-player**, capable of playing audio from **YouTube** with full support for Discord's DAVE (E2EE) voice protocol.
+A feature-rich Discord bot built with **Discord.js v14**, **discord-player**, and **sqlite3**, featuring high-quality YouTube music playback and a complete economy/casino system.
 
-## ✨ Features
+## ✨ Özellikler
 
-- **YouTube Playback** — YouTube linkleri üzerinden yüksek kaliteli ses çalma.
+- **Müzik Sistemi** — YouTube linkleri üzerinden yüksek kaliteli ses çalma.
+- **Ekonomi ve Casino** — Bakiye sistemi, günlük ödüller, blackjack, slot, yazı tura ve zar oyunları.
 - **DAVE Protocol Ready** — Discord'un yeni Uçtan Uca Şifreleme (E2EE) ses kanallarını tam destekler.
-- **Slash Commands** — Modern `/play`, `/skip`, `/queue` ve `/stop` komutları.
-- **Idle Timeout** — Şarkı bittiğinde veya kanal boşaldığında 3 dakika boyunca odada bekler.
-- **Dynamic Handlers** — Otomatik yüklenen komut ve olay işleyicileri.
-- **Hot Reload** — Geliştirme modunda `nodemon` ile otomatik yeniden başlatma.
+- **Slash Commands** — Modern müzik ve ekonomi komutları.
+- **Idle Timeout** — Şarkı bittiğinde veya kanal boşaldığında 5 dakika boyunca odada bekler, sonra ayrılır.
+- **SQLite Veritabanı** — Kullanıcı bakiyeleri ve verileri için hafif ve hızlı yerel veritabanı.
 
 ## 🚀 Başlangıç
 
@@ -60,12 +60,25 @@ Bu komut:
 
 ## 🤖 Komutlar
 
+### 🎵 Müzik Komutları
 | Komut | Açıklama |
 |---------|-------------|
 | `/play <link>` | Sadece YouTube linki ile şarkı çal |
 | `/skip` | Çalınan şarkıyı atla |
 | `/queue` | Sıradaki şarkıları gör |
 | `/stop` | Müziği durdur ve kanaldan ayrıl |
+
+### 💰 Ekonomi ve Casino Komutları
+| Komut | Açıklama |
+|---------|-------------|
+| `/bakiye` | Mevcut bakiyenizi (veya başkasınınkini) gösterir |
+| `/baltop` | En zengin kullanıcılar sıralamasını gösterir |
+| `/gunluk` | Günlük para ödülünüzü alırsınız |
+| `/gonder` | Başka bir kullanıcıya para gönderirsiniz |
+| `/blackjack` | Krupiyeye karşı Blackjack oynarsınız |
+| `/coinflip` | Yazı tura atarak bahsinizin iki katını kazanma şansı yakalarsınız |
+| `/slot` | Slot makinesinde şansınızı denersiniz |
+| `/zar` | Zar atarak bahis oynarsınız |
 
 ## ☁️ Deployment (Dokploy)
 
@@ -80,13 +93,10 @@ Bu bot **Dokploy** üzerinde Dockerfile ile dağıtılmak üzere yapılandırıl
 
 ```
 discord-bot/
-├── commands/           # Slash komut dosyaları
-│   ├── play.js         # /play — YouTube link oynatma
-│   ├── skip.js         # /skip — Şarkı atla
-│   ├── queue.js        # /queue — Kuyruğu göster
-│   └── stop.js         # /stop — Durdur ve ayrıl
-├── events/             # Olay dinleyicileri
-├── index.js            # Ana giriş dosyası
+├── commands/           # Müzik ve Ekonomi Slash komutları
+├── events/             # Olay dinleyicileri (interactionCreate, ready)
+├── index.js            # Ana giriş dosyası (Bot başlangıç)
+├── db.js               # SQLite veritabanı işlemleri
 ├── deploy-commands.js  # Komut kayıt aracı
 ├── Dockerfile          # Multi-stage Docker yapılandırması
 ├── .dockerignore       # Docker dışı dosyalar
@@ -98,9 +108,9 @@ discord-bot/
 
 - [Discord.js](https://discord.js.org/) v14
 - [discord-player](https://discord-player.js.org/) v7
+- [sqlite3](https://github.com/TryGhost/node-sqlite3)
 - [youtube-dl-exec](https://github.com/microlinkhq/youtube-dl-exec) (yt-dlp)
 - [FFmpeg](https://ffmpeg.org/)
-
 
 ## 📝 License
 
