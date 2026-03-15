@@ -12,7 +12,6 @@ try {
 
 const token = process.env.TOKEN || config.token;
 const clientId = process.env.CLIENT_ID || config.clientId;
-const guildId = process.env.GUILD_ID || config.guildId;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
@@ -33,9 +32,9 @@ const rest = new REST({ version: '10' }).setToken(token);
     try {
         console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-        // The put method is used to fully refresh all commands in the guild with the current set
+        // The put method is used to fully refresh all global commands with the current set
         const data = await rest.put(
-            Routes.applicationGuildCommands(clientId, guildId),
+            Routes.applicationCommands(clientId),
             { body: commands },
         );
 

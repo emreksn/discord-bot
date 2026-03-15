@@ -18,7 +18,7 @@ A feature-rich Discord bot built with **Discord.js v14**, **discord-player**, an
 - **Node.js** v16.9+ (LTS önerilir)
 - **FFmpeg** yüklü ve PATH'e eklenmiş olmalı
 - [Discord Developer Portal](https://discord.com/developers/applications) üzerinden alınmış bir Bot Token
-- **Application ID** (Client ID) ve **Server ID** (Guild ID)
+- **Application ID** (Client ID)
 
 ### Kurulum
 
@@ -36,8 +36,7 @@ Bot iki farklı yöntemi destekler:
 ```json
 {
     "token": "YOUR_BOT_TOKEN",
-    "clientId": "YOUR_CLIENT_ID",
-    "guildId": "YOUR_GUILD_ID"
+    "clientId": "YOUR_CLIENT_ID"
 }
 ```
 
@@ -45,7 +44,6 @@ Bot iki farklı yöntemi destekler:
 ```
 TOKEN=your_bot_token
 CLIENT_ID=your_application_id
-GUILD_ID=your_server_id
 ```
 
 ### Çalıştırma
@@ -86,7 +84,7 @@ Bu bot **Dokploy** üzerinde Dockerfile ile dağıtılmak üzere yapılandırıl
 
 1. Dokploy'da GitHub deponuza bağlı yeni bir uygulama oluşturun.
 2. **Build Type** kısmını **Dockerfile** olarak seçin.
-3. **Environment** sekmesine `TOKEN`, `CLIENT_ID` ve `GUILD_ID` değişkenlerini ekleyin.
+3. **Environment** sekmesine `TOKEN` ve `CLIENT_ID` değişkenlerini ekleyin.
 4. **Deploy** butonuna tıklayın.
 
 ## 📁 Proje Yapısı
