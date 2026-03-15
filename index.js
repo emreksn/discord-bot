@@ -10,14 +10,7 @@ const { Player } = require('discord-player');
 const { DefaultExtractors } = require('@discord-player/extractor');
 require('dotenv').config();
 
-let config = {};
-try {
-    config = require('./config.json');
-} catch (e) {
-    // Ignore require error in production (since config.json is in .gitignore)
-}
-
-const token = process.env.TOKEN || config.token;
+const token = process.env.TOKEN;
 
 const client = new Client({
     intents: [

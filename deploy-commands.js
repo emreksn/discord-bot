@@ -3,15 +3,8 @@ require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
 
-let config = {};
-try {
-    config = require('./config.json');
-} catch (e) {
-    // Ignore require error in production (since config.json is in .gitignore)
-}
-
-const token = process.env.TOKEN || config.token;
-const clientId = process.env.CLIENT_ID || config.clientId;
+const token = process.env.TOKEN;
+const clientId = process.env.CLIENT_ID;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier

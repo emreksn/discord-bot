@@ -30,18 +30,9 @@ npm install
 
 ### Yapılandırma
 
-Bot iki farklı yöntemi destekler:
+Bot yapılandırması ortam değişkenleri (`.env` dosyası) ile sağlanır:
 
-**Seçenek A — Yerel `config.json` (Geliştirme için):**
-```json
-{
-    "token": "YOUR_BOT_TOKEN",
-    "clientId": "YOUR_CLIENT_ID"
-}
-```
-
-**Seçenek B — Ortam Değişkenleri (Prodüksiyon/Dokploy için):**
-```
+```env
 TOKEN=your_bot_token
 CLIENT_ID=your_application_id
 ```
