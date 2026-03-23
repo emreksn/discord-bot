@@ -22,9 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd -r bot && useradd -r -g bot -m bot
 WORKDIR /app
 
-# 1. Create the database directory explicitly
-# 2. Ensure it exists before we copy files or switch users
-RUN mkdir -p /app/db
+# Create writable data directories for local fallback and container persistence
+RUN mkdir -p /app/db /data
 
 # Copy compiled modules from builder
 COPY --from=builder /app/node_modules ./node_modules
@@ -32,9 +31,8 @@ COPY --from=builder /app/node_modules ./node_modules
 # Copy the rest of the application code
 COPY . .
 
-# IMPORTANT: Ensure the 'bot' user owns the app directory AND the db folder
-# This allows the bot to create/write the .sqlite file inside /app/db
-RUN chown -R bot:bot /app
+# Ensure the bot user can write both app-local and mounted data directories
+RUN chown -R bot:bot /app /data
 
 # Switch to the non-root user
 USER bot

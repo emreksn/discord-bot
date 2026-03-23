@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 const path = require('path');
 
-const dataDir = path.join(__dirname, 'db');
+const dataDir = process.env.DB_DIR || path.join(__dirname, 'db');
 if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
 }
