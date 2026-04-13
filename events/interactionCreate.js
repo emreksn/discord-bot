@@ -9,7 +9,10 @@ module.exports = {
 
         if (!command) {
             console.error(`No command matching ${interaction.commandName} was found.`);
-            return;
+            return interaction.reply({
+                content: 'Bu komut su anda bot tarafinda kullanilamiyor. Bot yeniden baslatilmali veya komut yuklemesi eksik olabilir.',
+                ephemeral: true
+            });
         }
 
         try {

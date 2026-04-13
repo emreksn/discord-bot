@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { useMainPlayer } = require('discord-player');
+const { useMainPlayer } = require('../discord-player-bootstrap');
 const youtubedl = require('youtube-dl-exec');
 
 module.exports = {

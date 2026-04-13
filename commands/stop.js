@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { useQueue } = require('discord-player');
+const { useQueue } = require('../discord-player-bootstrap');
 
 module.exports = {
     data: new SlashCommandBuilder()

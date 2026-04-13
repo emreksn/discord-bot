@@ -6,7 +6,7 @@ if (typeof globalThis !== 'undefined' && !globalThis.crypto) {
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { Player } = require('discord-player');
+const { Player } = require('./discord-player-bootstrap');
 const { DefaultExtractors } = require('@discord-player/extractor');
 require('dotenv').config();
 require('./db.js');
