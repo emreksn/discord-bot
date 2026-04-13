@@ -240,6 +240,22 @@ function addGameSuggestion(entry) {
     });
 }
 
+function getGameSuggestionsByGuild(guildId) {
+    return new Promise((resolve, reject) => {
+        db.all(
+            `SELECT id, guild_id, channel_id, user_id, username, category, suggestion, created_at
+             FROM game_suggestions
+             WHERE guild_id = ?
+             ORDER BY datetime(created_at) ASC, id ASC`,
+            [guildId],
+            (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            }
+        );
+    });
+}
+
 module.exports = {
     getUser,
     updateUser,
@@ -248,5 +264,6 @@ module.exports = {
     addSongSuggestion,
     getSongSuggestionsByGuild,
     getCurrentWeekKey,
-    addGameSuggestion
+    addGameSuggestion,
+    getGameSuggestionsByGuild
 };
